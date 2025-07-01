@@ -19,7 +19,7 @@ import { AuthService } from '../../services/auth.service';
                   <i class="fas fa-home me-2"></i> <span>Home</span>
                 </a>
               </li>
-              <li class="nav-item mb-2">
+              <li *ngIf="userRole === 'ADMIN'" class="nav-item mb-2">
                 <button class="nav-link text-white d-flex align-items-center w-100 sidebar-btn" (click)="toggleClientesMenu()" [attr.aria-expanded]="clientesMenuOpen">
                   <i class="fas fa-users me-2"></i> <span>Clientes</span>
                   <i class="fas ms-auto" [ngClass]="clientesMenuOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
@@ -42,7 +42,7 @@ import { AuthService } from '../../services/auth.service';
                   </li>
                 </ul>
               </li>
-              <li class="nav-item mb-2">
+              <li *ngIf="userRole === 'ADMIN'" class="nav-item mb-2">
                 <button class="nav-link text-white d-flex align-items-center w-100 sidebar-btn" (click)="toggleColaboradoresMenu()" [attr.aria-expanded]="colaboradoresMenuOpen">
                   <i class="fas fa-user-friends me-2"></i> <span>Colaboradores</span>
                   <i class="fas ms-auto" [ngClass]="colaboradoresMenuOpen ? 'fa-chevron-up' : 'fa-chevron-down'"></i>

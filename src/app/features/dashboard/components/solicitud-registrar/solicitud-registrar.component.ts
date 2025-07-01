@@ -134,16 +134,11 @@ export class SolicitudRegistrarComponent implements OnInit {
       return;
     }
     
-    let solicitud: Solicitud = this.solicitudForm.getRawValue();
+    let solicitud: Partial<Solicitud> = this.solicitudForm.getRawValue();
     console.log('Solicitud a enviar:', solicitud);
     
-    // Para usuarios CLIENTE, asegurar que se use el clienteId correcto
-    if (this.userRole === 'CLIENTE' && this.clienteId) {
-      solicitud.clienteId = this.clienteId;
-    }
-    
     console.log('Enviando solicitud al servicio...');
-    this.solicitudService.create(solicitud).subscribe({
+    this.solicitudService.createWithAutoClienteId(solicitud).subscribe({
       next: (response) => {
         console.log('Solicitud creada exitosamente:', response);
         this.mensaje = 'Solicitud registrada con éxito';

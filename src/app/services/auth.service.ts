@@ -57,11 +57,18 @@ export class AuthService {
         localStorage.setItem('userRole', decodedToken.role);
         localStorage.setItem('userEmail', decodedToken.sub);
         localStorage.setItem('userId', decodedToken.userId);
-        localStorage.setItem('accountId', decodedToken.accountId);
+        if (decodedToken.clienteId) {
+          localStorage.setItem('clienteId', decodedToken.clienteId);
+        }
+        if (decodedToken.colaboradorId) {
+          localStorage.setItem('colaboradorId', decodedToken.colaboradorId);
+        }
+        // Guardar accountId para compatibilidad
+        localStorage.setItem('accountId', decodedToken.clienteId || decodedToken.colaboradorId || '');
         this.userRole = decodedToken.role;
         this.userEmail = decodedToken.sub;
         this.userId = decodedToken.userId;
-        this.accountId = decodedToken.accountId;
+        this.accountId = decodedToken.clienteId || decodedToken.colaboradorId || null;
       }
     }
   }
@@ -114,8 +121,16 @@ export class AuthService {
 
   getAccountId(): number | null {
     if (!this.accountId && typeof localStorage !== 'undefined') {
-      const accountIdStr = localStorage.getItem('accountId');
-      this.accountId = accountIdStr ? parseInt(accountIdStr, 10) : null;
+      const userRole = this.getUserRole();
+      let idStr: string | null = null;
+      if (userRole === 'CLIENTE') {
+        idStr = localStorage.getItem('clienteId');
+      } else if (userRole === 'COLABORADOR') {
+        idStr = localStorage.getItem('colaboradorId');
+      } else {
+        idStr = localStorage.getItem('accountId');
+      }
+      this.accountId = idStr ? parseInt(idStr, 10) : null;
     }
     return this.accountId;
   }

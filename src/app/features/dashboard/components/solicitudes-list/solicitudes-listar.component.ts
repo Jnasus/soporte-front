@@ -56,7 +56,7 @@ export class SolicitudesListarComponent implements OnInit {
 
   cargarSolicitudes(): void {
     this.loading = true;
-    this.solicitudService.getAll().subscribe({
+    this.solicitudService.getMySolicitudes().subscribe({
       next: (data) => {
         this.solicitudes = data;
         this.loading = false;
